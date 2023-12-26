@@ -94,6 +94,7 @@
     <script>
         document.getElementById('videoQualitySelector').addEventListener("click", function() {
 
+
             const m3u8Url = document.getElementById('fileUrl').value;
 
             const select = this;
@@ -117,6 +118,7 @@
                     return response.text();
                 })
                 .then(m3u8Content => {
+
                     // Parse the m3u8 link and extract video qualities
                     const regex = /#EXT-X-STREAM-INF:.*?RESOLUTION=([0-9x]+).*?\n([^#\n]+)/g;
                     let match;
@@ -143,7 +145,7 @@
                     // Event listener for the dropdown change
                     dropdown.addEventListener("change", function() {
                         let fullUrl = m3u8Url.substring(0, m3u8Url.lastIndexOf('/') + 1) + videoLinks[this.value];
-                        MyLibrary.downloadAndMerge('progress',fullUrl);
+                        MyLibrary.downloadAndMerge(fullUrl, 'progress');
                     });
                 })
                 .catch(error => {

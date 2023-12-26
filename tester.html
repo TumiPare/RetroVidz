@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Quality Selector</title>
+  <script src="./teffy.js" ></script>
+</head>
+<body>
+
+<h2>Select Video Quality:</h2>
+
+<select id="videoQualitySelector">
+    <option value="-1">Download</option>
+</select>
+<h2 id="progress">q</h2>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+
+    const m3u8Url = "https://hls030.searchmovieapi.com/streamhls2024/7465d0d8c91c0cb97fd282899db9b3df/ep.3.v3.1678081820.m3u8";
+
+    // Fetch the m3u8 file content
+    fetch(m3u8Url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to fetch m3u8 file: ${response.statusText}`);
+            }
+            return response.text();
+        })
+        .then(m3u8Content => {
+            // Parse the m3u8 link and extract video qualities
+            const regex = /#EXT-X-STREAM-INF:.*?RESOLUTION=([0-9x]+).*?\n([^#\n]+)/g;
+            let match;
+            const videoQualities = [];
+            const videoLinks = [];
+
+            while ((match = regex.exec(m3u8Content)) !== null) {
+                const quality = match[1];
+                const link = match[2];
+                videoQualities.push(quality);
+                videoLinks.push(link);
+            }
+
+            // Create options for the dropdown
+            const dropdown = document.getElementById("videoQualitySelector");
+
+            videoQualities.forEach((quality, index) => {
+                const option = document.createElement("option");
+                option.value = index;
+                option.text = quality;
+                dropdown.add(option);
+            });
+
+            // Event listener for the dropdown change
+            dropdown.addEventListener("change", function() {
+                let fullUrl = m3u8Url.substring(0, m3u8Url.lastIndexOf('/') + 1) + videoLinks[this.value];
+                MyLibrary.downloadAndMerge('progress',fullUrl);
+            });
+        })
+        .catch(error => {
+            console.error("Error fetching m3u8 file:", error.message);
+        });
+    });
+</script>
+
+</body>
+</html>
