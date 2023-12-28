@@ -1,25 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Quality Selector</title>
-  <script src="./teffy.js" ></script>
-</head>
-<body>
-
-<h2>Select Video Quality:</h2>
-
-<select id="videoQualitySelector">
-    <option value="-1">Download</option>
-</select>
-<h2 id="progress">q</h2>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
+document.getElementById('videoQualitySelector').addEventListener("click", function() {
 
 
-    const m3u8Url = "https://hls030.searchmovieapi.com/streamhls2024/7465d0d8c91c0cb97fd282899db9b3df/ep.3.v3.1678081820.m3u8";
+    const m3u8Url = document.getElementById('fileUrl').value;
 
+    const select = this;
+
+    // Remove all options
+    while (select.firstChild) {
+        select.removeChild(select.firstChild);
+    }
+
+    const downloadOption = document.createElement("option");
+    downloadOption.text = "Download";
+    this.add(downloadOption);
+
+    console.log(m3u8Url);
     // Fetch the m3u8 file content
     fetch(m3u8Url)
         .then(response => {
@@ -29,6 +24,7 @@
             return response.text();
         })
         .then(m3u8Content => {
+
             // Parse the m3u8 link and extract video qualities
             const regex = /#EXT-X-STREAM-INF:.*?RESOLUTION=([0-9x]+).*?\n([^#\n]+)/g;
             let match;
@@ -55,14 +51,10 @@
             // Event listener for the dropdown change
             dropdown.addEventListener("change", function() {
                 let fullUrl = m3u8Url.substring(0, m3u8Url.lastIndexOf('/') + 1) + videoLinks[this.value];
-                MyLibrary.downloadAndMerge('progress',fullUrl);
+                MyLibrary.downloadAndMerge(fullUrl, 'progress');
             });
         })
         .catch(error => {
             console.error("Error fetching m3u8 file:", error.message);
         });
-    });
-</script>
-
-</body>
-</html>
+});

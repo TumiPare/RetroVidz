@@ -4,62 +4,8 @@
     <title>RetroVidz</title>
     <meta charset="utf-8">
     <script type="text/javascript" src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
-    <script src="./teffy.js" ></script>
-    <style>
-        body {
-            background-color: #000;
-            color: #0f0;
-            font-family: 'Courier New', monospace;
-        }
-        #urlForm {
-            display: flex;
-            justify-content: center;
-            margin-top: 5vh;
-        }
-        #fileUrl {
-            width: 80vw;
-            max-width: 400px; /* Increase max-width */
-            height: 6vh; /* Increase height */
-            margin-right: 1vw;
-            background-color: #000;
-            color: #0f0;
-            border: 1px solid #0f0;
-            font-size: 1.5em; /* Increase font size */
-        }
-        button {
-            background-color: #000;
-            color: #0f0;
-            border: 1px solid #0f0;
-            cursor: pointer;
-            font-size: 1.5em;
-        }
-        button:hover {
-            background-color: #0f0;
-            color: #000;
-        }
-        #video-container {
-            margin-top: 5vh;
-            width: 90vw;
-            height: 50vh;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        #videoQualitySelector {
-            background-color: #000;; /* Green background */
-            color: #0f0;
-            border: 1px solid #0f0;
-            margin-left: 1vh;
-            /* padding: 10px; Some padding */
-            font-size: 1.5em;
-
-        }
-
-        #videoQualitySelector option {
-            background-color: #000;; /* Green background */
-            color: #0f0;
-        }
-
-    </style>
+    <script src="./dist/teffy.js" ></script>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
     <h1 style="text-align: center; color: #0f0; font-size: 5em">RetroVidz</h1>
@@ -71,12 +17,11 @@
         </select>
     </form>
  
-
     
     <h2 id="progress" style="text-align: center;"></h2>
+
+
     <div id="video-container"></div>
-
-
     <script type="text/javascript">
         var form = document.getElementById('urlForm');
         form.addEventListener('submit', function(event) {
@@ -91,67 +36,6 @@
             });
         });
     </script>
-    <script>
-        document.getElementById('videoQualitySelector').addEventListener("click", function() {
-
-
-            const m3u8Url = document.getElementById('fileUrl').value;
-
-            const select = this;
-
-            // Remove all options
-            while (select.firstChild) {
-                select.removeChild(select.firstChild);
-            }
-
-            const downloadOption = document.createElement("option");
-            downloadOption.text = "Download";
-            this.add(downloadOption);
-
-            console.log(m3u8Url);
-            // Fetch the m3u8 file content
-            fetch(m3u8Url)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Failed to fetch m3u8 file: ${response.statusText}`);
-                    }
-                    return response.text();
-                })
-                .then(m3u8Content => {
-
-                    // Parse the m3u8 link and extract video qualities
-                    const regex = /#EXT-X-STREAM-INF:.*?RESOLUTION=([0-9x]+).*?\n([^#\n]+)/g;
-                    let match;
-                    const videoQualities = [];
-                    const videoLinks = [];
-    
-                    while ((match = regex.exec(m3u8Content)) !== null) {
-                        const quality = match[1];
-                        const link = match[2];
-                        videoQualities.push(quality);
-                        videoLinks.push(link);
-                    }
-    
-                    // Create options for the dropdown
-                    const dropdown = document.getElementById("videoQualitySelector");
-    
-                    videoQualities.forEach((quality, index) => {
-                        const option = document.createElement("option");
-                        option.value = index;
-                        option.text = quality;
-                        dropdown.add(option);
-                    });
-    
-                    // Event listener for the dropdown change
-                    dropdown.addEventListener("change", function() {
-                        let fullUrl = m3u8Url.substring(0, m3u8Url.lastIndexOf('/') + 1) + videoLinks[this.value];
-                        MyLibrary.downloadAndMerge(fullUrl, 'progress');
-                    });
-                })
-                .catch(error => {
-                    console.error("Error fetching m3u8 file:", error.message);
-                });
-        });
-    </script>
+    <script src="./script.js"></script>
 </body>
 </html>
