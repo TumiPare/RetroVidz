@@ -64,7 +64,7 @@ class Teresa {
         const response = await fetch(url);
         const html = await response.text();
 
-        const iframeUrl = "https:" + new DOMParser().parseFromString(html, "text/html").querySelector('#media-player iframe').getAttribute('src');
+        const iframeUrl = 'https://corsproxy.io/?'+"https:" + new DOMParser().parseFromString(html, "text/html").querySelector('#media-player iframe').getAttribute('src');
         const iframeResponse = await fetch(iframeUrl);
         const iframeContent = await iframeResponse.text();
 
