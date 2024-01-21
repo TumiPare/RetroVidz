@@ -32,7 +32,6 @@ button:hover {
 #video-container {
     margin-top: 5vh;
     width: 90vw;
-    height: 50vh;
     margin-left: auto;
     margin-right: auto;
 }
@@ -49,4 +48,58 @@ button:hover {
 #videoQualitySelector option {
     background-color: #000;; /* Green background */
     color: #0f0;
+}
+
+#container {    
+    padding: 10px;
+    width: 50vw; /* Adjusted width to accommodate uniform length */
+    margin: 50px auto; /* Center the box */
+    display: flex; /* Enable flexbox layout */
+    flex-wrap: wrap; /* Allow flex items to wrap to the next line */
+  }
+
+#container ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Enable flexbox layout for list items */
+    flex-wrap: wrap; /* Allow list items to wrap to the next line */
+    gap: 4px; /* Set the gap between list items */
+}
+
+#container ul  li{
+    /* background-color: #27ae60; Green */
+    border: 1px solid #0f0;
+    color: #ecf0f1; /* Light gray text color */
+    padding: 10px; /* Adjusted padding for a more uniform look */
+    margin: 4px;
+    /* border-radius: 5px; */
+    text-align: center;
+    width: 60px; /* Fixed width for uniform length */
+    cursor: pointer;
+}
+
+li {
+    cursor: pointer
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+#loading-circle {
+    display: none;
+    border: 5px solid #0f0; /* Border color of the circle */
+    border-top: 8px solid #000; /* Border color of the circle's top part */
+    border-radius: 50%;
+    width: 50px; /* Diameter of the circle */
+    height: 50px; /* Diameter of the circle */
+    animation: spin 1s linear infinite; /* Rotate animation */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

@@ -11,31 +11,21 @@
     <h1 style="text-align: center; color: #0f0; font-size: 5em">RetroVidz</h1>
     <form id="urlForm">
         <input type="text" id="fileUrl" placeholder="Enter the file URL">
-        <button type="submit">Load Video</button>
-        <select id="videoQualitySelector">
+        <button type="submit">Search</button>
+        <!-- <select id="videoQualitySelector">
             <option >Download</option>
-        </select>
+        </select> -->
     </form>
- 
-    
     <h2 id="progress" style="text-align: center;"></h2>
-
-
+    <div class="loading-container">
+        <div id="loading-circle"></div>
+    </div>
     <div id="video-container"></div>
-    <script type="text/javascript">
-        var form = document.getElementById('urlForm');
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            var fileUrl = document.getElementById('fileUrl').value;
-            const player = jwplayer('video-container').setup({
-                controls: true,
-                displayPlaybackLabel: true,
-                abouttext: 'Download', // Text for the download link
-                aboutlink: fileUrl, 
-                file: fileUrl
-            });
-        });
-    </script>
+    <div id="show-list"></div>
+    <div id="container"></div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js" integrity="sha512-a+SUDuwNzXDvz4XrIcXHuCf089/iJAoN4lmrXJg18XnduKK6YlDHNRalv4yd1N40OKI80tFidF+rqTFKGPoWFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="./teresa.js"></script>
     <script src="./script.js"></script>
 </body>
 </html>
