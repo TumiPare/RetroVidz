@@ -48,7 +48,7 @@ class Teresa {
         this.a_tags.forEach(tag => {
             const originalUrl = tag.href;
             const baseUrlToRemove = "http://" + tag.host;
-            let modifiedUrl = originalUrl.replace(window.location.href, '');
+            let modifiedUrl = originalUrl.replace(baseUrlToRemove, '');
             modifiedUrl = "/" + modifiedUrl ;
             bobby.push({
                 "href": modifiedUrl,
